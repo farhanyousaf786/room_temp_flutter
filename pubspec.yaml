@@ -39,6 +39,8 @@ dependencies:
   sleek_circular_slider: ^2.0.1
   environment_sensors: ^0.2.0
   get: ^4.3.8
+  devicetemperature: ^0.0.1
+
 
 
 dev_dependencies:

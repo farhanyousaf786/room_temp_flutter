@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:roomtemppro/widgets/RoomTemp/RoomTemp.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:roomtemppro/utils/AppAssets.dart';
 import 'package:roomtemppro/utils/AppSpaces.dart';
 import 'package:roomtemppro/widgets/buttons.dart';
 
-class DashBoard extends StatelessWidget {
+class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
+
+  @override
+  State<DashBoard> createState() => _DashBoardState();
+}
+
+class _DashBoardState extends State<DashBoard> {
+  late String current = "room";
 
   @override
   Widget build(BuildContext context) {
@@ -16,29 +24,39 @@ class DashBoard extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          "Room Temperature",
-          style: TextStyle(fontSize: 22, color: Colors.lightBlue,
-          fontWeight: FontWeight.bold),
+        title: Text(
+          current == "room"
+              ? "Room Temperature"
+              : current == "humidity"
+                  ? "Humidity"
+                  : "Light",
+          style: TextStyle(
+              fontSize: 22,
+              color: Colors.lightBlue,
+              fontWeight: FontWeight.bold),
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-            children: [
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           Row(
             children: [
               GestureDetector(
-                onTap: ()=>{},
+                onTap: () => {
+                  setState(() {
+                    current = "room";
+                  }),
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Container(
                     height: 110,
                     width: MediaQuery.of(context).size.width / 4,
                     decoration: BoxDecoration(
-                      color: Colors.lightBlue,
+                      color: current == "room"
+                          ? Colors.lightBlue
+                          : Colors.lightBlue.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Column(
@@ -48,6 +66,9 @@ class DashBoard extends StatelessWidget {
                           child: Image.asset(
                             AppAssets.temperature,
                             scale: 1.8,
+                            color: current == "room"
+                                ? Colors.white
+                                : Colors.lightBlue.shade400,
                           ),
                         ),
                         Padding(
@@ -55,7 +76,11 @@ class DashBoard extends StatelessWidget {
                               left: 10, right: 10, bottom: 12),
                           child: Text(
                             "Temperature",
-                            style: TextStyle(fontSize: 10, color: Colors.white),
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: current == "room"
+                                    ? Colors.white
+                                    : Colors.lightBlue.shade400),
                           ),
                         )
                       ],
@@ -64,15 +89,20 @@ class DashBoard extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: ()=>{},
+                onTap: () => {
+                  setState(() {
+                    current = "humidity";
+                  }),
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Container(
                     height: 110,
-
                     width: MediaQuery.of(context).size.width / 4,
                     decoration: BoxDecoration(
-                      color: Colors.lightBlue,
+                      color: current == "humidity"
+                          ? Colors.lightBlue
+                          : Colors.lightBlue.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Column(
@@ -83,14 +113,22 @@ class DashBoard extends StatelessWidget {
                           child: Image.asset(
                             AppAssets.humidity,
                             scale: 1.8,
+                            color: current == "humidity"
+                                ? Colors.white
+                                : Colors.lightBlue.shade400,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 10, right: 10, bottom: 12),
                           child: Text(
-                            "Temperature",
-                            style: TextStyle(fontSize: 10, color: Colors.white),
+                            "Humidity",
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: current == "humidity"
+                                  ? Colors.white
+                                  : Colors.lightBlue.shade400,
+                            ),
                           ),
                         )
                       ],
@@ -99,15 +137,20 @@ class DashBoard extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: ()=>{},
+                onTap: () => {
+                  setState(() {
+                    current = "light";
+                  }),
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Container(
                     height: 110,
-
                     width: MediaQuery.of(context).size.width / 4,
                     decoration: BoxDecoration(
-                      color: Colors.lightBlue,
+                      color: current == "light"
+                          ? Colors.lightBlue
+                          : Colors.lightBlue.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Column(
@@ -118,14 +161,22 @@ class DashBoard extends StatelessWidget {
                           child: Image.asset(
                             AppAssets.light,
                             scale: 1.8,
+                            color: current == "light"
+                                ? Colors.white
+                                : Colors.lightBlue.shade400,
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(
-                              left: 10, right: 10, bottom: 12),
+                        Padding(
+                          padding:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 12),
                           child: Text(
-                            "Temperature",
-                            style: TextStyle(fontSize: 10, color: Colors.white),
+                            "Light",
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: current == "light"
+                                  ? Colors.white
+                                  : Colors.lightBlue.shade400,
+                            ),
                           ),
                         )
                       ],
@@ -133,75 +184,9 @@ class DashBoard extends StatelessWidget {
                   ),
                 ),
               ),
-
-
             ],
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: SleekCircularSlider(
-                appearance: CircularSliderAppearance(
-                  customColors: CustomSliderColors(
-                    trackColor: Get.theme.disabledColor,
-                    dotColor: Get.theme.disabledColor,
-                    progressBarColor: Get.theme.primaryColor,
-                  ),
-                  startAngle: 130.0,
-                  angleRange: 280.0,
-                  size: Get.mediaQuery.size.height,
-                  customWidths:
-                      CustomSliderWidths(progressBarWidth: 5, handlerSize: 10),
-                ),
-                min: 0,
-                max: 200,
-                initialValue: 10,
-                // onChangeEnd: (_value) => controller.tempature.value = _value,
-                innerWidget: (percentage) => Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Center(
-                    child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 7,
-                              spreadRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: Container(
-                            margin: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Get.theme.primaryColor,
-                                width: 1,
-                              ),
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${percentage.toStringAsFixed(0)}°C',
-                                style: TextStyle(
-                                  fontSize: 15 +
-                                      (22 * 683 / Get.mediaQuery.size.height),
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ))),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          AppSpaces.vertical10,
-          Text('Click to turn off'),
-          AppSpaces.vertical10,
-          AppSpaces.vertical30,
+          Expanded(child: RoomTemp()),
         ]),
       ),
     );
