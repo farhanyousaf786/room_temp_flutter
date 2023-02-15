@@ -11,28 +11,130 @@ class DashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
-      appBar: AppBar(),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          "Room Temperature",
+          style: TextStyle(fontSize: 22, color: Colors.lightBlue,
+          fontWeight: FontWeight.bold),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Column(children: [
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+            children: [
           Row(
             children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      AppAssets.temperature,
-                      scale: 1.5,
+              GestureDetector(
+                onTap: ()=>{},
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    height: 110,
+                    width: MediaQuery.of(context).size.width / 4,
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlue,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            AppAssets.temperature,
+                            scale: 1.8,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, bottom: 12),
+                          child: Text(
+                            "Temperature",
+                            style: TextStyle(fontSize: 10, color: Colors.white),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  Text(
-                    "Room Temperature",
-                    style: TextStyle(fontSize: 12, color: Colors.white),
-                  )
-                ],
-              )
+                ),
+              ),
+              GestureDetector(
+                onTap: ()=>{},
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    height: 110,
+
+                    width: MediaQuery.of(context).size.width / 4,
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlue,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            AppAssets.humidity,
+                            scale: 1.8,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, bottom: 12),
+                          child: Text(
+                            "Temperature",
+                            style: TextStyle(fontSize: 10, color: Colors.white),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: ()=>{},
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    height: 110,
+
+                    width: MediaQuery.of(context).size.width / 4,
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlue,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            AppAssets.light,
+                            scale: 1.8,
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(
+                              left: 10, right: 10, bottom: 12),
+                          child: Text(
+                            "Temperature",
+                            style: TextStyle(fontSize: 10, color: Colors.white),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+
             ],
           ),
           Expanded(
