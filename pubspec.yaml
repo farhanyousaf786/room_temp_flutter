@@ -40,6 +40,10 @@ dependencies:
   environment_sensors: ^0.2.0
   get: ^4.3.8
   devicetemperature: ^0.0.1
+  geolocator: ^7.7.0
+  geocoding: ^2.0.1
+  http: ^0.13.4
+
 
 
 
