@@ -21,6 +21,7 @@ class _HumidityState extends State<Humidity> {
   double? longitude;
   int? humidity = 0;
   String? cityName = "";
+  String apiKey = 'dd6359b8920c1a71d2561dc152d6ad3f';
   bool? isLoading = true;
   bool _lightAvailable = false;
   final environmentSensors = EnvironmentSensors();
@@ -82,6 +83,25 @@ class _HumidityState extends State<Humidity> {
         : Column(
             children: [
               Divider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 15),
+                child: Material(
+                  color: Colors.lightBlue,
+                  borderRadius: BorderRadius.circular(15),
+
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "  Humidity  "
+                      ,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(

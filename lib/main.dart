@@ -6,6 +6,7 @@ import 'package:roomtemppro/DashBoard/DashBoard.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.white,
     statusBarIconBrightness: Brightness.dark,
   ));
   runApp(const MyApp());
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+
       debugShowCheckedModeBanner: false,
       title: 'Room Temp',
       theme: ThemeData(

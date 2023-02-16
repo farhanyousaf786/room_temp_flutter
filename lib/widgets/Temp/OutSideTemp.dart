@@ -1,37 +1,83 @@
+
+
+import 'dart:convert';
+
+import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:devicetemperature/devicetemperature.dart';
 
-class Temp extends StatefulWidget {
-  const Temp({Key? key}) : super(key: key);
+class OutSideTemp extends StatefulWidget {
+  const OutSideTemp({Key? key}) : super(key: key);
 
   @override
-  State<Temp> createState() => _TempState();
+  State<OutSideTemp> createState() => _OutSideTempState();
 }
 
-class _TempState extends State<Temp> {
-  double? insideTemperatureC = 0.0;
-  double? insideTemperatureF = 0.0;
+class _OutSideTempState extends State<OutSideTemp> {
+  double? latitude;
+  double? longitude;
+  int? humidity = 0;
+  String? cityName = "";
+  bool? isLoading = true;
+  bool _lightAvailable = false;
+  String? address = "";
+  double? temperatureC = 0.0;
+  double? temperatureF = 0.0;
+  double? temperatureK = 0.0;
+  double? feelsLikeC = 0.0;
+  double? feelsLikeF = 0.0;
 
-  Future<void> initDeviceTemperature() async {
-    double temp;
-    try {
-      temp = await Devicetemperature.DeviceTemperature;
-    } catch (e) {
-      temp = 0.0;
+
+
+  getLocationWeather() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+    latitude = position.latitude;
+    longitude = position.longitude;
+    getData(
+        'https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=$apiKey');
+  }
+
+  getData(String url) async {
+    http.Response response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      String data = response.body;
+      var decodeData = jsonDecode(data);
+      double temp = decodeData['main']['temp'];
+      double feels = decodeData['main']['feels_like'];
+      cityName = decodeData['name'];
+      temperatureC = temp - 273;
+      temperatureF = temperatureC! * 9 / 5 + 32;
+      feelsLikeC = feels - 273;
+      feelsLikeF = feelsLikeC! * 9 / 5 + 32;
+
+      print("outC: $temperatureC");
+      print("outF: $temperatureF");
+      print("feelsLikeC: $feelsLikeC");
+      print("feelsLikeF: $feelsLikeF");
+      setState(() {});
+    } else {
+      print(response.statusCode);
     }
-    insideTemperatureC = (temp - 7);
-    insideTemperatureF = (((temp * 9 / 5) + 32) - 16);
-    setState(() {});
   }
 
   @override
   void initState() {
-    initDeviceTemperature();
+    getLocationWeather();
+
+    Future.delayed(const Duration(seconds: 1), () {
+      isLoading = false;
+      setState(() {});
+    });
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +93,8 @@ class _TempState extends State<Temp> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Room Temperature"
-                    ,
+                "Outside Temperature"
+                ,
                 style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -87,7 +133,7 @@ class _TempState extends State<Temp> {
                   ),
                   min: 0,
                   max: 100,
-                  initialValue: insideTemperatureC!,
+                  initialValue: temperatureC!,
                   // onChangeEnd: (_value) => controller.tempature.value = _value,
                   innerWidget: (percentage) => Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -159,7 +205,7 @@ class _TempState extends State<Temp> {
                   ),
                   min: 0,
                   max: 100,
-                  initialValue: insideTemperatureF!,
+                  initialValue: temperatureF!,
                   // onChangeEnd: (_value) => controller.tempature.value = _value,
                   innerWidget: (percentage) => Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -207,6 +253,42 @@ class _TempState extends State<Temp> {
           ],
         ),
 
+      cityName! == "" ? SizedBox():  Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Material(
+            color: Colors.lightBlue,
+            borderRadius: BorderRadius.circular(15),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                "  Location  ",
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    ),
+              ),
+            ),
+          ),
+        ),
+      cityName! == "" ? Center(
+        child: Text(
+          "Loading...",
+          style: TextStyle(
+              fontSize: 22,
+              color: Colors.lightBlue,
+              fontWeight: FontWeight.bold),
+        ),
+      )  :Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            cityName!,
+            style: TextStyle(
+                fontSize: 22,
+                color: Colors.lightBlue,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        Divider(),
       ],
     );
   }
